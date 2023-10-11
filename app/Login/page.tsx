@@ -19,28 +19,33 @@ const Login = (props: any) => {
     setUserDetails((prevState) => {
       return { ...prevState, [identifier]: value };
     });
-    validationHandler(identifier);
+    let duration=setTimeout(()=>{
+      validationHandler(identifier);
+    },300)
   };
-
+  useEffect(()=>{
+   console.log("hii ia m use effect") 
+   return ()=>{console.log("cleanup")}
+  },[userDetails.email])
   const validationHandler = (identifier: string) => {
     if (identifier == "email") {
       if (
         !userDetails.email.includes("@") ||
         !userDetails.email.includes(".")
       ) {
-        console.log(error, identifier);
+        // console.log(error, identifier);
         setError((prevState) => {
           return { ...prevState, ["emailError"]: "must contain @ and ." };
         });
       } else {
-        console.log(error);
+        // console.log(error);
         setError((prevState) => {
           return { ...prevState, ["emailError"]: "" };
         });
       }
     } else {
-      if (userDetails.password.length < 6) {
-        console.log(error);
+      if (userDetails.password.trim().length < 6) {
+        // console.log(error);
         setError((prevState) => {
           return {
             ...prevState,
@@ -48,7 +53,7 @@ const Login = (props: any) => {
           };
         });
       } else {
-        console.log(error);
+        // console.log(error);
         setError((prevState) => {
           return { ...prevState, ["passwordError"]: "" };
         });
@@ -57,7 +62,7 @@ const Login = (props: any) => {
     if (
       userDetails.email.includes("@") &&
       userDetails.email.includes(".") &&
-      userDetails.password.length > 6
+      userDetails.password.length >= 6
     ) {
       setIsDisabled(false);
     } else {
@@ -73,14 +78,14 @@ const Login = (props: any) => {
   useEffect(() => {
     let loginInfo = localStorage.getItem("loggedIn");
     // console.log(JSON.parse(loginInfo) == "yes")
-    if (JSON.parse(loginInfo) == "yes") {
+    if (JSON.parse(loginInfo!) == "yes") {
       props.onLogin(true);
     } else {
       props.onLogout(false);
     }
   }, [props.onLogin, props.onLogout]);
 
-  useEffect(() => {}, [isDisabled]);
+  
 
   return (
     <div className="flex flex-col items-center justify-center p-4 gap-4 shadow-xl">
