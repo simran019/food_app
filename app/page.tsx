@@ -27,8 +27,8 @@ export default function Home() {
   return (
     <Wrapper>
       <MainHeader onLogin={isLoggedIn} onLogout={logoutHandler} />
-      {/* {!isLoggedIn && <Login onLogin={loginHandler} onLogout={logoutHandler} />} */}
-      {!isLoggedIn && <ReducerLogin onLogin={loginHandler} onLogout={logoutHandler}/>}
+      {!isLoggedIn && <Login onLogin={loginHandler} onLogout={logoutHandler} />}
+      {/* {!isLoggedIn && <ReducerLogin onLogin={loginHandler} onLogout={logoutHandler}/>} */}
       {isLoggedIn && <Dashboard />}
     </Wrapper>
   );

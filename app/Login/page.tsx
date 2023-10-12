@@ -3,89 +3,31 @@
 import { useEffect, useState } from "react";
 
 const Login = (props: any) => {
-  const [userDetails, setUserDetails] = useState({
-    email: "",
-    password: "",
-  });
 
-  const [error, setError] = useState({
-    emailError: "",
-    passwordError: "",
-  });
+  const [email,setEmail] = useState({
+    value:"",
+    validity:null
+  })
 
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [password,setPassword] = useState({
+    value:"",
+    validity:null
+  })
 
-  const inputHandler = (identifier: string, value: string) => {
-    setUserDetails((prevState) => {
-      return { ...prevState, [identifier]: value };
-    });
-    let duration=setTimeout(()=>{
-      validationHandler(identifier);
-    },300)
-  };
-  useEffect(()=>{
-   console.log("hii ia m use effect") 
-   return ()=>{console.log("cleanup")}
-  },[userDetails.email])
-  const validationHandler = (identifier: string) => {
-    if (identifier == "email") {
-      if (
-        !userDetails.email.includes("@") ||
-        !userDetails.email.includes(".")
-      ) {
-        // console.log(error, identifier);
-        setError((prevState) => {
-          return { ...prevState, ["emailError"]: "must contain @ and ." };
-        });
-      } else {
-        // console.log(error);
-        setError((prevState) => {
-          return { ...prevState, ["emailError"]: "" };
-        });
-      }
-    } else {
-      if (userDetails.password.trim().length < 6) {
-        // console.log(error);
-        setError((prevState) => {
-          return {
-            ...prevState,
-            ["passwordError"]: "must be atleast 6 characters long",
-          };
-        });
-      } else {
-        // console.log(error);
-        setError((prevState) => {
-          return { ...prevState, ["passwordError"]: "" };
-        });
-      }
+  const inputHandler =(identifier:string,value:string)=>{
+    if(identifier=="email"){
+      setEmail({validity:value.includes("@") && value.includes(".") ,value:value})
     }
-    if (
-      userDetails.email.includes("@") &&
-      userDetails.email.includes(".") &&
-      userDetails.password.length >= 6
-    ) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
+    if(identifier=="password"){
+      setPassword({validity:value.trim().length>=6 ,value:value})
     }
-  };
-
-  const submitHandler = (event: any) => {
+  }
+  const submitHandler =(event:any)=>{
     event.preventDefault();
-    localStorage.setItem("loggedIn", JSON.stringify("yes"));
+    localStorage.setItem("loggedIn",JSON.stringify("yes"));
     props.onLogin();
-  };
-  useEffect(() => {
-    let loginInfo = localStorage.getItem("loggedIn");
-    // console.log(JSON.parse(loginInfo) == "yes")
-    if (JSON.parse(loginInfo!) == "yes") {
-      props.onLogin(true);
-    } else {
-      props.onLogout(false);
-    }
-  }, [props.onLogin, props.onLogout]);
+  }
 
-  
 
   return (
     <div className="flex flex-col items-center justify-center p-4 gap-4 shadow-xl">
@@ -97,7 +39,7 @@ const Login = (props: any) => {
         <div className="flex flex-col gap-8 p-2">
           <input
             className={`border-2 rounded-md p-1 ${
-              error.emailError ? "border-red-300" : "border-black"
+              email.validity==false ? "border-red-300" : "border-black"
             }`}
             type="text"
             placeholder="email"
@@ -105,7 +47,7 @@ const Login = (props: any) => {
           />
           <input
             className={`border-2 rounded-md p-1 ${
-              error.passwordError ? "border-red-300" : "border-black"
+              password.validity==false ? "border-red-300" : "border-black"
             }`}
             type="password"
             placeholder="password"
@@ -113,24 +55,23 @@ const Login = (props: any) => {
           />
         </div>
         <div className="flex flex-col gap-8 p-2">
-          <span className="p-1 text-red-400">{error.emailError}</span>
-          <span className="p-1 text-red-400">{error.passwordError}</span>
+          <span className="p-1 text-red-400">{email.validity==false?"must conatin @ and .":""}</span>
+          <span className="p-1 text-red-400">{password.validity==false?"must be atleast 6 characters long":""}</span>
         </div>
       </div>
       <div>
         <button
           className={`p-2 rounded-xl font-bold ${
-            isDisabled
-              ? "bg-slate-300 text-slate-800"
-              : "bg-green-600 text-white"
+            (email.validity==true && password.validity==true)
+              ?"bg-green-600 text-white"
+              : "bg-slate-300 text-slate-800"
           }`}
           type="submit"
           onClick={submitHandler}
-          disabled={isDisabled}
+          disabled={!email.validity || !password.validity}
         >
           Log In
         </button>
-        <p>{isDisabled}</p>
       </div>
     </div>
   );
