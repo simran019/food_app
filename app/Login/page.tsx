@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 const Login = (props: any) => {
+  const info = props?.isAuthenticated ? "justify-between" : "w-1/3 justify-center";
   const [email,setEmail] = useState<{value:string;validity:null|boolean}>({
     value:"",
     validity:null
@@ -29,11 +30,14 @@ const Login = (props: any) => {
 
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 gap-4 shadow-xl">
+    <div className={`flex flex-col items-center justify-center p-4 gap-4 shadow-xl h-96 ${info}`}>
       <div className="flex items-center justify-center p-4 gap-4">
         <div className="flex flex-col gap-8 p-2">
           <label className="p-1">Email</label>
+          <span className="p-1 text-red-400"></span>
+        
           <label className="p-1">Password</label>
+          <span className="p-1 text-red-400"></span>
         </div>
         <div className="flex flex-col gap-8 p-2">
           <input
@@ -44,6 +48,8 @@ const Login = (props: any) => {
             placeholder="email"
             onChange={(event) => inputHandler("email", event.target.value)}
           />
+          <span className="p-1 text-red-400">{email.validity==false?"must conatin @ and .":""}</span>
+          
           <input
             className={`border-2 rounded-md p-1 ${
               password.validity==false ? "border-red-300" : "border-black"
@@ -52,11 +58,11 @@ const Login = (props: any) => {
             placeholder="password"
             onChange={(event) => inputHandler("password", event.target.value)}
           />
-        </div>
-        <div className="flex flex-col gap-8 p-2">
-          <span className="p-1 text-red-400">{email.validity==false?"must conatin @ and .":""}</span>
           <span className="p-1 text-red-400">{password.validity==false?"must be atleast 6 characters long":""}</span>
+        
         </div>
+        {/* <div className="flex flex-col gap-8 p-2">
+          </div> */}
       </div>
       <div>
         <button

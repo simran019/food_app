@@ -5,7 +5,6 @@ import Wrapper from "./Helpers/page";
 import Login from "./Login/page";
 import MainHeader from "./MainHeader/page";
 import Dashboard from "./Home/page";
-import ReducerLogin from "./useReducerLogin/page";
 
 export default function Home() {
   const [isLoggedIn, setisLoggedIn] = useState(false);

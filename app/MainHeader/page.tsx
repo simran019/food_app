@@ -2,7 +2,7 @@ import Wrapper from "../Helpers/page";
 import Navigation from "../Navigation/page";
 
 const MainHeader = (props: any) => {
-  const info = props?.isAuthenticated ? "justify-between" : "justify-center";
+  const info = props?.isAuthenticated ? "w-screen justify-between" : "w-1/3 justify-center";
   return (
     <div className={`flex bg-green-600 headerFont text-center p-4 ${info}`}>
       {props.isAuthenticated && <div></div>}
