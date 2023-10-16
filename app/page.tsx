@@ -25,13 +25,16 @@ export default function Home() {
     }
   }, [isLoggedIn]);
   return (
-      <AuthContext.Provider value={isLoggedIn}>
+      <AuthContext.Provider value={{
+        isLoggedIn:isLoggedIn,
+        onLogout:logoutHandler
+        }}>
         <Wrapper>
-        <MainHeader onLogout={logoutHandler} />
+        <MainHeader/>
         {isLoggedIn ? (
           <Dashboard />
         ) : (
-          <Login onLogin={loginHandler} onLogout={logoutHandler} />
+          <Login onLogin={loginHandler}/>
         )}
         </Wrapper>
       </AuthContext.Provider>

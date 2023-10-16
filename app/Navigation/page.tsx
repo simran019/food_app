@@ -1,15 +1,16 @@
 import AuthContext from "../store/page";
 import { useContext } from "react";
-const Navigation = (props: any) => {
+const Navigation = () => {
   const isAuthenticated = useContext(AuthContext);
+  console.log(isAuthenticated);
   const clickHandler = () => {
-    props.onLogout();
+    isAuthenticated.onLogout();
   };
   return (
     <>
-    {isAuthenticated && <div></div>}
-    {isAuthenticated? <div>Hello Admin</div>:<div>Sign In</div>}
-    {isAuthenticated && (
+    {isAuthenticated.isLoggedIn && <div></div>}
+    {isAuthenticated.isLoggedIn? <div>Hello Admin</div>:<div>Sign In</div>}
+    {isAuthenticated.isLoggedIn && (
        
       <div className="flex justify-between items-center w-fit gap-4 font-light text-xl">
         

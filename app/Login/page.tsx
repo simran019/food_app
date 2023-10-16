@@ -1,9 +1,10 @@
 "use client";
-
+import {useContext} from "react";
 import { useEffect, useState } from "react";
+import AuthContext from "../store/page";
 
 const Login = (props: any) => {
-  const info = props?.isAuthenticated ? "justify-between" : "w-1/3 justify-center";
+  const info = useContext(AuthContext).isLoggedIn ? "justify-between" : "w-1/3 justify-center";
   const [email,setEmail] = useState<{value:string;validity:null|boolean}>({
     value:"",
     validity:null
