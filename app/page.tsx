@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import Wrapper from "./Helpers/page";
 import Login from "./Login/page";
 import MainHeader from "./MainHeader/page";
@@ -17,19 +17,17 @@ export default function Home() {
     setisLoggedIn(false);
     localStorage.setItem("loggedIn", JSON.stringify("no"));
   };
-  useEffect(()=>{
-    if(JSON.parse(localStorage.getItem("loggedIn")!)=="yes"){
-      setisLoggedIn(true)
-    }else{
-      setisLoggedIn(false)
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("loggedIn")!) == "yes") {
+      setisLoggedIn(true);
+    } else {
+      setisLoggedIn(false);
     }
-  },[])
+  }, [isLoggedIn]);
   return (
     <Wrapper>
-      <MainHeader onLogin={isLoggedIn} onLogout={logoutHandler} />
-      {!isLoggedIn && <Login onLogin={loginHandler} onLogout={logoutHandler} />}
-      {/* {!isLoggedIn && <ReducerLogin onLogin={loginHandler} onLogout={logoutHandler}/>} */}
-      {isLoggedIn && <Dashboard />}
+      <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler}/>
+      {isLoggedIn?<Dashboard/>:<Login onLogin={loginHandler} onLogout={logoutHandler}/>}
     </Wrapper>
   );
 }

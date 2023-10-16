@@ -1,23 +1,13 @@
 import Wrapper from "../Helpers/page";
+import Navigation from "../Navigation/page";
 
 const MainHeader = (props: any) => {
-  const info = props?.onLogin ? "justify-between" : "justify-center";
-  const clickHandler = () => {
-    props.onLogout();
-  };
+  const info = props?.isAuthenticated ? "justify-between" : "justify-center";
   return (
     <div className={`flex bg-green-600 headerFont text-center p-4 ${info}`}>
-      {props.onLogin && <div></div>}
-      <div>Log In</div>
-
-      {props.onLogin && (
-        <div className="flex justify-between items-center w-fit gap-4 font-light text-xl">
-          <button>Home</button>
-          <button className="bg-red-800 p-4 rounded-xl" onClick={clickHandler}>
-            Logout
-          </button>
-        </div>
-      )}
+      {props.isAuthenticated && <div></div>}
+      {props.isAuthenticated? <div>Hello Admin</div>:<div>Sign In</div>}
+      <Navigation isAuthenticated={props.isAuthenticated} onLogout={props.onLogout}/>
     </div>
   );
 };

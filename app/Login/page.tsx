@@ -3,13 +3,12 @@
 import { useEffect, useState } from "react";
 
 const Login = (props: any) => {
-
-  const [email,setEmail] = useState({
+  const [email,setEmail] = useState<{value:string;validity:null|boolean}>({
     value:"",
     validity:null
   })
 
-  const [password,setPassword] = useState({
+  const [password,setPassword] = useState<{value:string,validity:null|boolean}>({
     value:"",
     validity:null
   })
